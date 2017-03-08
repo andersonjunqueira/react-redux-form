@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 
-import MeuPerfilForm from './MeuPerfilForm';
+import SimpleForm from './SimpleForm';
 
 class MeuPerfil extends Component {
 
     doSubmit(formData) {
-        formData.preventDefault();
-        console.log(formData);
+        formData();
     }
 
     render() {
         return (
-            <MeuPerfilForm handleSubmit={this.doSubmit}/>
+            <SimpleForm handleSubmit={this.doSubmit}/>
         );
     }
 
