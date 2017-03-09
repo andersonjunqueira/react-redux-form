@@ -26,5 +26,5 @@ class MeuPerfilForm extends Component {
 }
 
 export default reduxForm({
-  form: 'simple'
+  form: 'meuPerfilForm'
 })(MeuPerfilForm)
