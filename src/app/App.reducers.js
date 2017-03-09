@@ -8,7 +8,7 @@ const app = (state = initialState, action) => {
     return state
 }
 
-const reducers = combineReducers({
+export const reducers = combineReducers({
     app,
     form: formReducer
 })
