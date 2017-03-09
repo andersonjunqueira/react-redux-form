@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-class SimpleForm extends Component {
+class MeuPerfilForm extends Component {
 
     render() {
         const { handleSubmit } = this.props;
@@ -27,4 +27,4 @@ class SimpleForm extends Component {
 
 export default reduxForm({
   form: 'simple'
-})(SimpleForm)
+})(MeuPerfilForm)

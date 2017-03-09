@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import SimpleForm from './SimpleForm';
+import MeuPerfilForm from './MeuPerfilForm';
 
-class SimplePage extends Component {
+class MeuPerfil extends Component {
 
     handleSubmit = (values) => {
         // Do something with the form values
@@ -11,9 +11,9 @@ class SimplePage extends Component {
 
     render() {
         return (
-            <SimpleForm onSubmit={this.handleSubmit} />
+            <MeuPerfilForm onSubmit={this.handleSubmit} />
         );
     }
 } 
 
-export default SimplePage;
+export default MeuPerfil;
