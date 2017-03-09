@@ -4,7 +4,7 @@ import MeuPerfilForm from './MeuPerfilForm';
 
 class MeuPerfil extends Component {
 
-    handleSubmit = (values) => {
+    handleSubmit(values) {
         // Do something with the form values
         console.log(values);
     }
