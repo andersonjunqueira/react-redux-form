@@ -1,23 +1,19 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
 
-import MeuPerfil from '../modules/MeuPerfil/MeuPerfil';
+import SimplePage from '../modules/SimplePage/SimplePage';
 
 const App = ({store}) => (
     <Provider store={store}>
         <Router history={browserHistory}>
 
             <Route path="/">
-                <IndexRoute component={MeuPerfil} />
+                <IndexRoute component={SimplePage} />
             </Route>
 
         </Router>
     </Provider>
 );
-
-App.propTypes = {
-    store: PropTypes.object.isRequired,
-};
 
 export default App;
