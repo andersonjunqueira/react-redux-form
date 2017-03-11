@@ -1,30 +1,78 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, FieldArray, reduxForm } from 'redux-form';
+import isEmail from 'sane-email-validation';
 
-class MeuPerfilForm extends Component {
-
+class renderInput extends Component {
     render() {
-        const { handleSubmit } = this.props;
+        const field = this.props; 
         return (
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="firstName">First Name</label>
-                    <Field name="firstName" component="input" type="text"/>
-                </div>
-                <div>
-                    <label htmlFor="lastName">Last Name</label>
-                    <Field name="lastName" component="input" type="text"/>
-                </div>
-                <div>
-                    <label htmlFor="email">Email</label>
-                    <Field name="email" component="input" type="email"/>
-                </div>
-                <button type="submit">Submit</button>
-            </form>
+            <div>
+                <label>{field.placeholder}</label><br/>
+                <input {...field.input}/><br/>
+                {field.meta.error && field.meta.touched && <span>{field.meta.error}</span>}<br/>
+            </div>
         );
     }
 }
 
-export default reduxForm({
-  form: 'meuPerfilForm'
-})(MeuPerfilForm)
+class renderPhones extends Component {
+    render() {
+        const { fields } = this.props; 
+        return (
+            <ul>
+                <li><button type="button" onClick={() => fields.push()}>Adicionar Telefone</button></li>
+                {fields.map((field, index) =>
+                    <li key={index}>
+                        <Field name={field} component={renderInput} placeholder={"Phone #${index + 1}"}/>
+                    </li>
+                )}
+            </ul>
+        );
+    }
+}
+
+class MeuPerfilForm extends Component {
+
+    render() {
+        const props = this.props;
+        return (
+            <form onSubmit={props.handleSubmit(props.doSubmit)}>
+                <Field name="username" component={renderInput} placeholder="Username"/><br/>
+                <Field name="password" component={renderInput} placeholder="Password"/><br/>
+                <Field name="email" component={renderInput} placeholder="Email"/><br/>                    
+                <FieldArray name="phones" component={renderPhones} />
+                <button type="submit">Enviar</button>
+                
+            </form>
+        );
+    }
+
+}
+
+const validateForm = values => {
+    const errors = {};
+
+    if(!values.username) {
+        errors.username = "Required";
+    }
+
+    if(!values.password) {
+        errors.password = "Required";
+    }
+
+    if(!values.email) {
+        errors.email = "Required";
+    } else if(!isEmail(values.email)) {
+        errors.email = "Invalid";
+    }
+
+    return errors;
+}
+
+MeuPerfilForm = reduxForm({
+    form: "meuPerfilForm",
+    destroyOnUnmount: false,
+    validate: validateForm
+})(MeuPerfilForm);
+
+export default MeuPerfilForm;

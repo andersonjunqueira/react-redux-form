@@ -4,16 +4,16 @@ import MeuPerfilForm from './MeuPerfilForm';
 
 class MeuPerfil extends Component {
 
-    handleSubmit(values) {
-        // Do something with the form values
+    doSubmit(values) {
         console.log(values);
     }
 
     render() {
         return (
-            <MeuPerfilForm onSubmit={this.handleSubmit} />
+            <MeuPerfilForm doSubmit={this.doSubmit}/>
         );
     }
-} 
+
+}
 
 export default MeuPerfil;
