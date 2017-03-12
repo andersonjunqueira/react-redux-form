@@ -7,8 +7,8 @@ class renderInput extends Component {
         const field = this.props; 
         return (
             <div>
-                <label>{field.placeholder}</label><br/>
-                <input {...field.input}/><br/>
+                <label>{field.placeholder}</label>
+                <input {...field.input}/>
                 {field.meta.error && field.meta.touched && <span>{field.meta.error}</span>}<br/>
             </div>
         );
@@ -16,16 +16,24 @@ class renderInput extends Component {
 }
 
 class renderPhones extends Component {
+
+    normalizePhone(value) {
+        const nums = value.replace(/[^\d]/g, '');
+        return nums;
+    }
+
     render() {
-        const { fields } = this.props; 
+        const { fields, meta } = this.props; 
         return (
             <ul>
                 <li><button type="button" onClick={() => fields.push()}>Adicionar Telefone</button></li>
                 {fields.map((field, index) =>
                     <li key={index}>
-                        <Field name={field} component={renderInput} placeholder={"Phone #${index + 1}"}/>
+                        <Field name={field} normalize={this.normalizePhone} component={renderInput} placeholder={"Phone #" + (index + 1)}/>
+                        <button type="button" onClick={() => fields.remove(index)}>Remover</button>
                     </li>
                 )}
+                {meta.error && <li>{meta.error}</li>}
             </ul>
         );
     }
@@ -34,14 +42,14 @@ class renderPhones extends Component {
 class MeuPerfilForm extends Component {
 
     render() {
-        const props = this.props;
+        const { handleSubmit, doSubmit, invalid, submitting } = this.props;
         return (
-            <form onSubmit={props.handleSubmit(props.doSubmit)}>
+            <form onSubmit={handleSubmit(doSubmit)}>
                 <Field name="username" component={renderInput} placeholder="Username"/><br/>
                 <Field name="password" component={renderInput} placeholder="Password"/><br/>
                 <Field name="email" component={renderInput} placeholder="Email"/><br/>                    
                 <FieldArray name="phones" component={renderPhones} />
-                <button type="submit">Enviar</button>
+                <button type="submit" disabled={invalid || submitting}>Enviar</button>
                 
             </form>
         );
@@ -66,6 +74,10 @@ const validateForm = values => {
         errors.email = "Invalid";
     }
 
+    if(values.phones && values.phones.length > 3) {
+        errors.phones = [];
+        errors.phones._error = "Muitos telefones";
+    }
     return errors;
 }
 
